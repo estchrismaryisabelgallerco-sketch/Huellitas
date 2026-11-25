@@ -422,4 +422,5 @@ C:\Users\josel\Huellitas\obj\BuildCheck\ru\Microsoft.CodeAnalysis.Workspaces.MSB
 C:\Users\josel\Huellitas\obj\BuildCheck\tr\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
 C:\Users\josel\Huellitas\obj\BuildCheck\zh-Hans\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
 C:\Users\josel\Huellitas\obj\BuildCheck\zh-Hant\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
-C:\Users\josel\Huellitas\obj\Debug\net9.0\compressed\uwb9d4jhb2-rbu2ngkvb9.gz
+C:\Users\josel\Huellitas\obj\Debug\net9.0\Huellitas.sourcelink.json
+C:\Users\josel\Huellitas\obj\Debug\net9.0\compressed\uwb9d4jhb2-axyut8k4wa.gz

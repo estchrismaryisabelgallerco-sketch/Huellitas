@@ -17,201 +17,144 @@
 {
     <div class="app-layout">
 
-        <!-- MENÚ LATERAL -->
-        <aside class="sidebar offcanvas-lg offcanvas-start"
-               tabindex="-1"
-               id="sidebarMenu"
-               aria-labelledby="sidebarTitle">
+        <!-- NAVEGACIÓN PRINCIPAL -->
+        <header class="main-header">
 
-            <div class="sidebar-header">
+            <div class="navbar-main">
 
-                <a class="sidebar-brand"
+                <!-- MARCA -->
+                <a class="navbar-brand-custom"
                    asp-controller="Home"
                    asp-action="Index">
 
                     <span class="brand-icon">🐾</span>
 
                     <span class="brand-text">
-                        <strong id="sidebarTitle">HUELLITAS</strong>
+                        <strong>HUELLITAS</strong>
                         <small>Gestión veterinaria</small>
                     </span>
+
                 </a>
 
-                <button type="button"
-                        class="btn-close btn-close-white d-lg-none"
-                        data-bs-dismiss="offcanvas"
-                        aria-label="Cerrar menú">
-                </button>
+                <!-- ENLACES DE NAVEGACIÓN -->
+                <nav class="main-navigation">
 
-            </div>
-
-            <div class="sidebar-content">
-
-                <nav class="sidebar-nav">
-
-                    <div class="sidebar-section-title">
-                        GENERAL
-                    </div>
-
-                    <a class="sidebar-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Home" ? "active" : "")"
+                    <a class="nav-link-custom @(ViewContext.RouteData.Values["controller"]?.ToString() == "Home" ? "active" : "")"
                        asp-controller="Home"
                        asp-action="Index">
+                        <span>⌂</span>
+                        Inicio
+                    </a>
 
-                        <span class="sidebar-icon">⌂</span>
-                        <span>Inicio</span>
+                    <a class="nav-link-custom @(ViewContext.RouteData.Values["controller"]?.ToString() == "Propietarios" ? "active" : "")"
+                       asp-controller="Propietarios"
+                       asp-action="Index">
+                        <span>♙</span>
+                        Propietarios
+                    </a>
+
+                    <a class="nav-link-custom @(ViewContext.RouteData.Values["controller"]?.ToString() == "Mascotas" ? "active" : "")"
+                       asp-controller="Mascotas"
+                       asp-action="Index">
+                        <span>🐾</span>
+                        Mascotas
+                    </a>
+
+                    <a class="nav-link-custom @(ViewContext.RouteData.Values["controller"]?.ToString() == "Citas" ? "active" : "")"
+                       asp-controller="Citas"
+                       asp-action="Index">
+                        <span>▣</span>
+                        Citas
                     </a>
 
                     @if (User.IsInRole("Administrador"))
                     {
-                        <a class="sidebar-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Dashboard" ? "active" : "")"
+                        <a class="nav-link-custom @(ViewContext.RouteData.Values["controller"]?.ToString() == "Dashboard" ? "active" : "")"
                            asp-controller="Dashboard"
                            asp-action="Index">
-
-                            <span class="sidebar-icon">▦</span>
-                            <span>Estadísticas</span>
+                            <span>▦</span>
+                            Estadísticas
                         </a>
                     }
-
-                    <div class="sidebar-section-title">
-                        GESTIÓN VETERINARIA
-                    </div>
-
-                    <a class="sidebar-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Propietarios" ? "active" : "")"
-                       asp-controller="Propietarios"
-                       asp-action="Index">
-
-                        <span class="sidebar-icon">♙</span>
-                        <span>Propietarios</span>
-                    </a>
-
-                    <a class="sidebar-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Mascotas" ? "active" : "")"
-                       asp-controller="Mascotas"
-                       asp-action="Index">
-
-                        <span class="sidebar-icon">🐾</span>
-                        <span>Mascotas</span>
-                    </a>
-
-                    <a class="sidebar-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Citas" ? "active" : "")"
-                       asp-controller="Citas"
-                       asp-action="Index">
-
-                        <span class="sidebar-icon">▣</span>
-                        <span>Citas</span>
-                    </a>
 
                     @if (User.IsInRole("Administrador") ||
                          User.IsInRole("Veterinario"))
                     {
-                        <a class="sidebar-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Consultas" ? "active" : "")"
+                        <a class="nav-link-custom @(ViewContext.RouteData.Values["controller"]?.ToString() == "Consultas" ? "active" : "")"
                            asp-controller="Consultas"
                            asp-action="Index">
-
-                            <span class="sidebar-icon">✚</span>
-                            <span>Consultas médicas</span>
+                            <span>✚</span>
+                            Consultas
                         </a>
                     }
 
                     @if (User.IsInRole("Administrador"))
                     {
-                        <div class="sidebar-section-title">
-                            ADMINISTRACIÓN
-                        </div>
-
-                        <a class="sidebar-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Personal" ? "active" : "")"
+                        <a class="nav-link-custom @(ViewContext.RouteData.Values["controller"]?.ToString() == "Personal" ? "active" : "")"
                            asp-controller="Personal"
                            asp-action="Index">
-
-                            <span class="sidebar-icon">♧</span>
-                            <span>Personal</span>
+                            <span>♧</span>
+                            Personal
                         </a>
 
-                        <a class="sidebar-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Usuarios" ? "active" : "")"
+                        <a class="nav-link-custom @(ViewContext.RouteData.Values["controller"]?.ToString() == "Usuarios" ? "active" : "")"
                            asp-controller="Usuarios"
                            asp-action="Create">
-
-                            <span class="sidebar-icon">♙</span>
-                            <span>Usuarios</span>
+                            <span>♙</span>
+                            Usuarios
                         </a>
                     }
 
                 </nav>
-            </div>
 
-            <!-- PERFIL Y CIERRE DE SESIÓN -->
-            <div class="sidebar-footer">
+                <!-- USUARIO Y CIERRE DE SESIÓN -->
+                <div class="navbar-user">
 
-                <div class="user-info">
-
-                    <div class="user-avatar">
-                        @(string.IsNullOrEmpty(User.Identity.Name)
-                            ? "U"
-                            : User.Identity.Name.Substring(0, 1).ToUpper())
+                    <div class="user-status">
+                        <span class="status-indicator"></span>
+                        <span>Conectado</span>
                     </div>
 
-                    <div class="user-details">
-                        <strong>@User.Identity.Name</strong>
-                        <small>Sesión activa</small>
+                    <div class="user-profile">
+                        <div class="user-avatar">
+                            @(string.IsNullOrEmpty(User.Identity.Name)
+                                ? "U"
+                                : User.Identity.Name.Substring(0, 1).ToUpper())
+                        </div>
+
+                        <div class="user-details">
+                            <strong>@User.Identity.Name</strong>
+                            <small>Sesión activa</small>
+                        </div>
                     </div>
+
+                    <form asp-controller="Account"
+                          asp-action="Logout"
+                          method="post">
+
+                        <button type="submit" class="logout-button"
+                                title="Cerrar sesión">
+                            <span>↪</span>
+                            <span class="logout-text">Salir</span>
+                        </button>
+
+                    </form>
 
                 </div>
 
-                <form asp-controller="Account"
-                      asp-action="Logout"
-                      method="post">
-
-                    <button type="submit" class="logout-button">
-                        <span>↪</span>
-                        Cerrar sesión
-                    </button>
-
-                </form>
-
             </div>
 
-        </aside>
+        </header>
 
         <!-- CONTENIDO PRINCIPAL -->
-        <div class="main-wrapper">
+        <main role="main" class="main-content">
+            @RenderBody()
+        </main>
 
-            <header class="topbar">
-
-                <div class="topbar-left">
-
-                    <button class="menu-toggle d-lg-none"
-                            type="button"
-                            data-bs-toggle="offcanvas"
-                            data-bs-target="#sidebarMenu"
-                            aria-controls="sidebarMenu"
-                            aria-label="Abrir menú">
-
-                        ☰
-
-                    </button>
-
-                    <div class="topbar-title">
-                        <span>Panel de gestión</span>
-                        <small>Sistema veterinario HUELLITAS</small>
-                    </div>
-
-                </div>
-
-                <div class="topbar-user">
-                    <span class="status-indicator"></span>
-                    <span>Conectado</span>
-                </div>
-
-            </header>
-
-            <main role="main" class="main-content">
-                @RenderBody()
-            </main>
-
-            <footer class="app-footer">
-                © 2026 HUELLITAS · Sistema de Gestión Veterinaria
-            </footer>
-
-        </div>
+        <!-- PIE DE PÁGINA -->
+        <footer class="app-footer">
+            © 2026 HUELLITAS · Sistema de Gestión Veterinaria
+        </footer>
 
     </div>
 }
