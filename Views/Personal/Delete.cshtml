@@ -1,0 +1,116 @@
+
+@model Huellitas.Models.Personal
+
+@{
+    ViewData["Title"] = "Eliminar personal";
+    int cantidadHorarios = ViewBag.CantidadHorarios ?? 0;
+    int cantidadCitas = ViewBag.CantidadCitas ?? 0;
+    bool tieneCitas = ViewBag.TieneCitas ?? false;
+}
+
+<div class="container mt-4">
+
+    <div class="mb-4">
+        <h2>Eliminar registro de personal</h2>
+        <p class="text-muted">
+            Revisa la información antes de confirmar.
+        </p>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-body p-4">
+
+            <div class="alert alert-warning">
+                <strong>Atención:</strong>
+                esta acción eliminará el registro laboral de esta persona.
+                La cuenta de usuario y su rol de acceso no serán eliminados.
+            </div>
+
+            @if (tieneCitas)
+            {
+                <div class="alert alert-danger">
+                    <strong>No se puede eliminar este registro.</strong>
+                    <p class="mb-0 mt-1">
+                        Este personal tiene <strong>@cantidadCitas cita(s)</strong> asociada(s).
+                        Primero debe reasignar o eliminar esas citas antes de continuar.
+                    </p>
+                </div>
+            }
+
+            @if (cantidadHorarios > 0)
+            {
+                <div class="alert alert-danger">
+                    Este registro tiene
+                    <strong>@cantidadHorarios horario(s)</strong> asociado(s).
+                    También se eliminarán esos horarios.
+                </div>
+            }
+            else
+            {
+                <div class="alert alert-info">
+                    Este registro no tiene horarios asociados.
+                </div>
+            }
+
+            <h5 class="mb-3">Datos del personal</h5>
+
+            <dl class="row">
+                <dt class="col-sm-4">Nombre completo</dt>
+                <dd class="col-sm-8">
+                    @Model.Nombres @Model.Apellidos
+                </dd>
+
+                <dt class="col-sm-4">Correo de usuario</dt>
+                <dd class="col-sm-8">
+                    @Model.Usuario?.Email
+                </dd>
+
+                <dt class="col-sm-4">Teléfono</dt>
+                <dd class="col-sm-8">@Model.Telefono</dd>
+
+                <dt class="col-sm-4">Especialidad</dt>
+                <dd class="col-sm-8">
+                    @(string.IsNullOrWhiteSpace(Model.Especialidad)
+                        ? "No especificada"
+                        : Model.Especialidad)
+                </dd>
+
+                <dt class="col-sm-4">Fecha de contratación</dt>
+                <dd class="col-sm-8">
+                    @Model.FechaContratacion.ToString("dd/MM/yyyy")
+                </dd>
+
+                <dt class="col-sm-4">Estado laboral</dt>
+                <dd class="col-sm-8">@Model.EstadoLaboral</dd>
+            </dl>
+
+            @if (!tieneCitas)
+            {
+                <form asp-action="Delete" asp-route-id="@Model.Id" method="post">
+                    <div class="d-flex gap-2 mt-4">
+
+                        <button type="submit" class="btn btn-danger">
+                            Confirmar eliminación
+                        </button>
+
+                        <a asp-action="Index"
+                           class="btn btn-outline-secondary">
+                            Cancelar
+                        </a>
+
+                    </div>
+                </form>
+            }
+            else
+            {
+                <div class="mt-4">
+                    <a asp-action="Index"
+                       class="btn btn-outline-secondary">
+                        Volver al listado
+                    </a>
+                </div>
+            }
+
+        </div>
+    </div>
+</div>

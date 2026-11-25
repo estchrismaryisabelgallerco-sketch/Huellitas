@@ -1,0 +1,134 @@
+
+@model Huellitas.Models.Personal
+
+@{
+    ViewData["Title"] = "Editar personal";
+    bool esVeterinario = ViewBag.EsVeterinario == true;
+}
+
+<div class="container mt-4">
+
+    <div class="mb-4">
+        <h2>Editar personal</h2>
+        <p class="text-muted">
+            Modifica los datos laborales de @Model.Nombres @Model.Apellidos.
+        </p>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-body p-4">
+
+            <form asp-action="Edit" asp-route-id="@Model.Id" method="post">
+
+                <div asp-validation-summary="ModelOnly"
+                     class="text-danger mb-3"></div>
+
+                <h5 class="mb-3">Cuenta asociada</h5>
+
+                <div class="mb-3">
+                    <label class="form-label">Correo de usuario</label>
+                    <input class="form-control"
+                           value="@Model.Usuario?.Email"
+                           readonly />
+                    <small class="text-muted">
+                        La cuenta y su rol no se modifican desde esta pantalla.
+                    </small>
+                </div>
+
+                <hr />
+
+                <h5 class="mb-3">Datos personales</h5>
+
+                <div class="row">
+
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="Nombres" class="form-label"></label>
+                        <input asp-for="Nombres" class="form-control" />
+                        <span asp-validation-for="Nombres"
+                              class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="Apellidos" class="form-label"></label>
+                        <input asp-for="Apellidos" class="form-control" />
+                        <span asp-validation-for="Apellidos"
+                              class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="Telefono" class="form-label"></label>
+                        <input asp-for="Telefono" class="form-control" />
+                        <span asp-validation-for="Telefono"
+                              class="text-danger"></span>
+                    </div>
+
+                </div>
+
+                @if (esVeterinario)
+                {
+                    <hr />
+                    <h5 class="mb-3">Información profesional</h5>
+
+                    <div class="mb-3">
+                        <label asp-for="Especialidad" class="form-label"></label>
+                        <input asp-for="Especialidad"
+                               class="form-control"
+                               placeholder="Ej. Medicina general" />
+                        <span asp-validation-for="Especialidad"
+                              class="text-danger"></span>
+                    </div>
+                }
+
+                <hr />
+
+                <h5 class="mb-3">Información laboral</h5>
+
+                <div class="row">
+
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="FechaContratacion"
+                               class="form-label"></label>
+                        <input asp-for="FechaContratacion"
+                               type="date"
+                               class="form-control" />
+                        <span asp-validation-for="FechaContratacion"
+                              class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="EstadoLaboral"
+                               class="form-label"></label>
+
+                        <select asp-for="EstadoLaboral" class="form-select">
+                            <option value="Activo">Activo</option>
+                            <option value="Inactivo">Inactivo</option>
+                            <option value="Vacaciones">Vacaciones</option>
+                        </select>
+
+                        <span asp-validation-for="EstadoLaboral"
+                              class="text-danger"></span>
+                    </div>
+
+                </div>
+
+                <div class="d-flex gap-2 mt-4">
+
+                    <button type="submit" class="btn btn-primary">
+                        Guardar cambios
+                    </button>
+
+                    <a asp-action="Index"
+                       class="btn btn-outline-secondary">
+                        Cancelar
+                    </a>
+
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

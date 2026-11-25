@@ -1,0 +1,196 @@
+
+@model Huellitas.ViewModels.CrearPersonalViewModel
+
+@{
+    ViewData["Title"] = "Registrar personal";
+}
+
+<div class="container mt-4">
+
+    <div class="mb-4">
+        <h2>Registrar personal</h2>
+        <p class="text-muted">
+            Registra los datos laborales y asocia una cuenta de usuario existente.
+        </p>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-body p-4">
+
+            <form asp-action="Create" method="post">
+
+                <div asp-validation-summary="ModelOnly"
+                     class="alert alert-danger"></div>
+
+                <h5 class="mb-3">Cuenta de usuario</h5>
+
+                <div class="mb-3">
+                    <label asp-for="IdentityUserId" class="form-label">
+                        Cuenta asociada
+                    </label>
+
+                    <select asp-for="IdentityUserId" class="form-select">
+                        <option value="">Seleccione una cuenta</option>
+
+                        @foreach (var usuario in ViewBag.Usuarios)
+                        {
+                            <option value="@usuario.Id">
+                                @usuario.CorreoRol
+                            </option>
+                        }
+                    </select>
+
+                    <span asp-validation-for="IdentityUserId"
+                          class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Rol" class="form-label"></label>
+
+                    <select asp-for="Rol" class="form-select" id="Rol">
+                        <option value="">Seleccione el tipo de personal</option>
+
+                        @foreach (var rol in ViewBag.RolesPersonal)
+                        {
+                            <option value="@rol">@rol</option>
+                        }
+                    </select>
+
+                    <span asp-validation-for="Rol"
+                          class="text-danger"></span>
+                </div>
+
+                <hr />
+
+                <h5 class="mb-3">Datos personales</h5>
+
+                <div class="row">
+
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="Nombres" class="form-label"></label>
+                        <input asp-for="Nombres" class="form-control" />
+                        <span asp-validation-for="Nombres"
+                              class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="Apellidos" class="form-label"></label>
+                        <input asp-for="Apellidos" class="form-control" />
+                        <span asp-validation-for="Apellidos"
+                              class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="Telefono" class="form-label"></label>
+                        <input asp-for="Telefono" class="form-control" />
+                        <span asp-validation-for="Telefono"
+                              class="text-danger"></span>
+                    </div>
+
+                </div>
+
+                <div id="contenedorEspecialidad" style="display: none;">
+
+                    <hr />
+
+                    <h5 class="mb-3">Información profesional</h5>
+
+                    <div class="mb-3">
+                        <label asp-for="Especialidad" class="form-label"></label>
+
+                        <input asp-for="Especialidad"
+                               class="form-control"
+                               id="Especialidad"
+                               placeholder="Ej. Medicina general" />
+
+                        <span asp-validation-for="Especialidad"
+                              class="text-danger"></span>
+                    </div>
+
+                </div>
+
+                <hr />
+
+                <h5 class="mb-3">Información laboral</h5>
+
+                <div class="row">
+
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="FechaContratacion"
+                               class="form-label"></label>
+
+                        <input asp-for="FechaContratacion"
+                               type="date"
+                               class="form-control" />
+
+                        <span asp-validation-for="FechaContratacion"
+                              class="text-danger"></span>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="EstadoLaboral"
+                               class="form-label"></label>
+
+                        <select asp-for="EstadoLaboral" class="form-select">
+                            <option value="Activo">Activo</option>
+                            <option value="Inactivo">Inactivo</option>
+                            <option value="Vacaciones">Vacaciones</option>
+                        </select>
+
+                        <span asp-validation-for="EstadoLaboral"
+                              class="text-danger"></span>
+                    </div>
+
+                </div>
+
+                <div class="d-flex gap-2 mt-4">
+
+                    <button type="submit" class="btn btn-success">
+                        <i class="bi bi-save"></i>
+                        Registrar personal
+                    </button>
+
+                    <a asp-action="Index"
+                       class="btn btn-outline-secondary">
+                        Cancelar
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+
+</div>
+
+@section Scripts {
+
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+
+            const rol = document.getElementById("Rol");
+            const contenedor = document.getElementById("contenedorEspecialidad");
+            const especialidad = document.getElementById("Especialidad");
+
+            function actualizarEspecialidad() {
+
+                if (rol.value === "Veterinario") {
+                    contenedor.style.display = "block";
+                    especialidad.required = true;
+                }
+                else {
+                    contenedor.style.display = "none";
+                    especialidad.required = false;
+                    especialidad.value = "";
+                }
+            }
+
+            rol.addEventListener("change", actualizarEspecialidad);
+
+            actualizarEspecialidad();
+        });
+    </script>
+}

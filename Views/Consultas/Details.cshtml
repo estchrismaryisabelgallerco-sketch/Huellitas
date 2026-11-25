@@ -1,0 +1,174 @@
+
+@model Huellitas.Models.Consulta
+
+@{
+    ViewData["Title"] = "Detalles de la consulta";
+}
+
+<div class="container mt-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1>Ficha clínica</h1>
+            <p class="text-muted mb-0">
+                Información médica completa de la mascota.
+            </p>
+        </div>
+
+        <span class="badge bg-primary fs-6">
+            Consulta #@Model.Id
+        </span>
+    </div>
+
+    <div class="card shadow-sm mb-4">
+        <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">Información de la mascota</h5>
+        </div>
+
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <strong>Nombre:</strong>
+                    <p>@Model.Mascota?.Nombre</p>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <strong>Especie:</strong>
+                    <p>@Model.Mascota?.Especie</p>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <strong>Raza:</strong>
+                    <p>@Model.Mascota?.Raza</p>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <strong>Sexo:</strong>
+                    <p>@Model.Mascota?.Sexo</p>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <strong>Propietario:</strong>
+                    <p>
+                        @Model.Mascota?.Propietario?.Nombres
+                        @Model.Mascota?.Propietario?.Apellidos
+                    </p>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <strong>Teléfono:</strong>
+                    <p>@Model.Mascota?.Propietario?.Telefono</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card shadow-sm mb-4">
+        <div class="card-header bg-dark text-white">
+            <h5 class="mb-0">Información de la consulta médica</h5>
+        </div>
+
+        <div class="card-body">
+
+            <div class="mb-3">
+                <strong>Fecha y hora:</strong>
+                <p>@Model.FechaHora.ToString("dd/MM/yyyy HH:mm")</p>
+            </div>
+
+            <div class="mb-3">
+                <strong>Motivo de consulta:</strong>
+                <p>@Model.Motivo</p>
+            </div>
+
+            <div class="mb-3">
+                <strong>Síntomas:</strong>
+                <p class="text-break">
+                    @(string.IsNullOrWhiteSpace(Model.Sintomas)
+                        ? "No se registraron síntomas."
+                        : Model.Sintomas)
+                </p>
+            </div>
+
+            <div class="mb-3">
+                <strong>Diagnóstico:</strong>
+                <p class="text-break">@Model.Diagnostico</p>
+            </div>
+
+            <div class="mb-3">
+                <strong>Tratamiento:</strong>
+                <p class="text-break">
+                    @(string.IsNullOrWhiteSpace(Model.Tratamiento)
+                        ? "No se registró tratamiento."
+                        : Model.Tratamiento)
+                </p>
+            </div>
+
+            <div class="mb-3">
+                <strong>Observaciones:</strong>
+                <p class="text-break">
+                    @(string.IsNullOrWhiteSpace(Model.Observaciones)
+                        ? "Sin observaciones adicionales."
+                        : Model.Observaciones)
+                </p>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="card shadow-sm mb-4">
+        <div class="card-header bg-secondary text-white">
+            <h5 class="mb-0">Cita asociada</h5>
+        </div>
+
+        <div class="card-body">
+            @if (Model.Cita != null)
+            {
+                <p>
+                    <strong>Número de cita:</strong>
+                    #@Model.Cita.Id
+                </p>
+
+                <p>
+                    <strong>Fecha:</strong>
+                    @Model.Cita.FechaHora.ToString("dd/MM/yyyy HH:mm")
+                </p>
+
+                <p>
+                    <strong>Motivo:</strong>
+                    @Model.Cita.Motivo
+                </p>
+
+                <p>
+                    <strong>Estado:</strong>
+                    <span class="badge bg-success">
+                        @Model.Cita.Estado
+                    </span>
+                </p>
+
+                <p>
+                    <strong>Consultorio:</strong>
+                    @Model.Cita.NumeroConsultorio
+                </p>
+            }
+            else
+            {
+                <p class="text-muted mb-0">
+                    Esta consulta no tiene una cita asociada.
+                </p>
+            }
+        </div>
+    </div>
+
+    <div class="d-flex gap-2 mb-4">
+        <a asp-action="Index" class="btn btn-secondary">
+            Volver al historial
+        </a>
+
+        <a asp-action="Edit"
+           asp-route-id="@Model.Id"
+           class="btn btn-warning">
+            Editar consulta
+        </a>
+    </div>
+
+</div>

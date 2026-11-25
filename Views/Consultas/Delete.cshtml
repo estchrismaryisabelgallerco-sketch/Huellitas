@@ -1,0 +1,77 @@
+
+@model Huellitas.Models.Consulta
+
+@{
+    ViewData["Title"] = "Eliminar consulta";
+}
+
+<h1>Eliminar consulta</h1>
+
+<div class="alert alert-warning">
+    <strong>Atención:</strong> ¿Estás seguro de que deseas eliminar
+    este registro clínico? Esta acción no se puede deshacer.
+</div>
+
+<div class="card">
+    <div class="card-header">
+        Información de la consulta
+    </div>
+
+    <div class="card-body">
+        <dl class="row">
+
+            <dt class="col-sm-3">Mascota</dt>
+            <dd class="col-sm-9">
+                @Model.Mascota?.Nombre
+            </dd>
+
+            <dt class="col-sm-3">Propietario</dt>
+            <dd class="col-sm-9">
+                @Model.Mascota?.Propietario?.Nombres
+                @Model.Mascota?.Propietario?.Apellidos
+            </dd>
+
+            <dt class="col-sm-3">Fecha y hora</dt>
+            <dd class="col-sm-9">
+                @Model.FechaHora.ToString("dd/MM/yyyy HH:mm")
+            </dd>
+
+            <dt class="col-sm-3">Motivo</dt>
+            <dd class="col-sm-9">
+                @Model.Motivo
+            </dd>
+
+            <dt class="col-sm-3">Diagnóstico</dt>
+            <dd class="col-sm-9">
+                @Model.Diagnostico
+            </dd>
+
+            <dt class="col-sm-3">Tratamiento</dt>
+            <dd class="col-sm-9">
+                @(string.IsNullOrWhiteSpace(Model.Tratamiento)
+                    ? "Sin tratamiento registrado"
+                    : Model.Tratamiento)
+            </dd>
+
+            <dt class="col-sm-3">Cita asociada</dt>
+            <dd class="col-sm-9">
+                @(Model.CitaId.HasValue
+                    ? "Cita #" + Model.CitaId
+                    : "Sin cita asociada")
+            </dd>
+
+        </dl>
+    </div>
+</div>
+
+<form asp-action="Delete" method="post" class="mt-3">
+    <input type="hidden" asp-for="Id" />
+
+    <button type="submit" class="btn btn-danger">
+        Sí, eliminar consulta
+    </button>
+
+    <a asp-action="Index" class="btn btn-secondary">
+        Cancelar
+    </a>
+</form>

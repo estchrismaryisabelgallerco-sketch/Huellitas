@@ -1,0 +1,393 @@
+
+@using System.Text.Json
+
+@{
+    ViewData["Title"] = "Dashboard estadístico";
+
+    string[] etiquetasCitas =
+        ViewBag.EtiquetasCitas as string[] ?? Array.Empty<string>();
+
+    int[] datosCitas =
+        ViewBag.DatosCitas as int[] ?? Array.Empty<int>();
+
+    string[] etiquetasMascotas =
+        ViewBag.EtiquetasMascotas as string[] ?? Array.Empty<string>();
+
+    int[] datosMascotas =
+        ViewBag.DatosMascotas as int[] ?? Array.Empty<int>();
+
+    string[] etiquetasPeriodos =
+        ViewBag.EtiquetasPeriodos as string[] ?? Array.Empty<string>();
+
+    int[] datosPeriodos =
+        ViewBag.DatosPeriodos as int[] ?? Array.Empty<int>();
+
+    string[] etiquetasDiagnosticos =
+        ViewBag.EtiquetasDiagnosticos as string[] ?? Array.Empty<string>();
+
+    int[] datosDiagnosticos =
+        ViewBag.DatosDiagnosticos as int[] ?? Array.Empty<int>();
+}
+
+<div class="container-fluid py-4">
+
+    <!-- ENCABEZADO -->
+    <div class="p-4 p-md-5 mb-4 text-white rounded-4 shadow"
+         style="background: linear-gradient(120deg, #176B5B, #239B82);">
+
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+            <div>
+                <h1 class="display-6 fw-bold">
+                    Dashboard estadístico
+                </h1>
+
+                <p class="fs-5 mb-0">
+                    Panel de control administrativo de Huellitas
+                </p>
+
+                <p class="mt-2 mb-0">
+                    Información estadística obtenida directamente de MariaDB.
+                </p>
+            </div>
+
+            <span class="badge bg-light text-success fs-6 px-3 py-2">
+                Administrador
+            </span>
+        </div>
+    </div>
+
+    <!-- INDICADORES GENERALES -->
+    <div class="mb-3">
+        <h2 class="h4 fw-bold mb-1">Indicadores generales</h2>
+        <p class="text-muted mb-0">
+            Resumen de los registros del sistema.
+        </p>
+    </div>
+
+    <div class="row g-3 mb-5">
+
+        <div class="col-12 col-sm-6 col-xl-3">
+            <div class="card border-0 shadow-sm rounded-4 h-100">
+                <div class="card-body p-4">
+                    <div class="text-muted mb-2">Propietarios</div>
+                    <h2 class="fw-bold mb-0">@ViewBag.TotalPropietarios</h2>
+                    <small class="text-muted">Propietarios registrados</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-sm-6 col-xl-3">
+            <div class="card border-0 shadow-sm rounded-4 h-100">
+                <div class="card-body p-4">
+                    <div class="text-muted mb-2">Mascotas</div>
+                    <h2 class="fw-bold mb-0">@ViewBag.TotalMascotas</h2>
+                    <small class="text-muted">Mascotas registradas</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-sm-6 col-xl-3">
+            <div class="card border-0 shadow-sm rounded-4 h-100">
+                <div class="card-body p-4">
+                    <div class="text-muted mb-2">Citas</div>
+                    <h2 class="fw-bold mb-0">@ViewBag.TotalCitas</h2>
+                    <small class="text-muted">Citas registradas</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-sm-6 col-xl-3">
+            <div class="card border-0 shadow-sm rounded-4 h-100">
+                <div class="card-body p-4">
+                    <div class="text-muted mb-2">Consultas</div>
+                    <h2 class="fw-bold mb-0">@ViewBag.TotalConsultas</h2>
+                    <small class="text-muted">Consultas clínicas registradas</small>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- CONSULTAS POR PERIODO -->
+    <div class="mb-3">
+        <h2 class="h4 fw-bold mb-1">Actividad de consultas</h2>
+        <p class="text-muted mb-0">
+            Cantidad de consultas realizadas en diferentes períodos.
+        </p>
+    </div>
+
+    <div class="row g-3 mb-4">
+
+        <div class="col-12 col-md-4">
+            <div class="card border-0 shadow-sm rounded-4 h-100">
+                <div class="card-body p-4">
+                    <div class="text-muted mb-2">Últimos 7 días</div>
+                    <h2 class="fw-bold text-success mb-1">
+                        @ViewBag.Consultas7Dias
+                    </h2>
+                    <small class="text-muted">
+                        Consultas registradas en los últimos siete días.
+                    </small>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-md-4">
+            <div class="card border-0 shadow-sm rounded-4 h-100">
+                <div class="card-body p-4">
+                    <div class="text-muted mb-2">Últimos 30 días</div>
+                    <h2 class="fw-bold text-success mb-1">
+                        @ViewBag.Consultas30Dias
+                    </h2>
+                    <small class="text-muted">
+                        Consultas registradas en los últimos treinta días.
+                    </small>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-md-4">
+            <div class="card border-0 shadow-sm rounded-4 h-100">
+                <div class="card-body p-4">
+                    <div class="text-muted mb-2">Últimos 90 días</div>
+                    <h2 class="fw-bold text-success mb-1">
+                        @ViewBag.Consultas90Dias
+                    </h2>
+                    <small class="text-muted">
+                        Consultas registradas en los últimos noventa días.
+                    </small>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- GRAFICOS -->
+    <h2 class="h4 fw-bold mb-3">Análisis estadístico</h2>
+
+    <div class="row g-4 mb-4">
+
+        <div class="col-12 col-lg-6">
+            <div class="card border-0 shadow-sm rounded-4 h-100">
+                <div class="card-body p-4">
+                    <h3 class="h5 fw-bold mb-3">Citas por estado</h3>
+                    <div style="height: 320px;">
+                        <canvas id="graficoCitas"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-lg-6">
+            <div class="card border-0 shadow-sm rounded-4 h-100">
+                <div class="card-body p-4">
+                    <h3 class="h5 fw-bold mb-3">Mascotas por especie</h3>
+                    <div style="height: 320px;">
+                        <canvas id="graficoMascotas"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-lg-6">
+            <div class="card border-0 shadow-sm rounded-4 h-100">
+                <div class="card-body p-4">
+                    <h3 class="h5 fw-bold mb-3">Consultas por período</h3>
+                    <div style="height: 320px;">
+                        <canvas id="graficoPeriodos"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-lg-6">
+            <div class="card border-0 shadow-sm rounded-4 h-100">
+                <div class="card-body p-4">
+                    <h3 class="h5 fw-bold mb-3">
+                        Diagnósticos más frecuentes
+                    </h3>
+
+                    <div style="height: 320px;">
+                        <canvas id="graficoDiagnosticos"></canvas>
+                    </div>
+
+                    @if (etiquetasDiagnosticos.Length == 0)
+                    {
+                        <p class="text-muted small mt-2 mb-0">
+                            Todavía no existen diagnósticos registrados.
+                        </p>
+                    }
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="text-muted small text-end mt-4">
+        Datos consultados directamente desde la base de datos veterinario.
+    </div>
+
+</div>
+
+@section Scripts {
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        // DATOS DEL CONTROLADOR
+
+        const etiquetasCitas =
+            @Html.Raw(JsonSerializer.Serialize(etiquetasCitas));
+
+        const datosCitas =
+            @Html.Raw(JsonSerializer.Serialize(datosCitas));
+
+        const etiquetasMascotas =
+            @Html.Raw(JsonSerializer.Serialize(etiquetasMascotas));
+
+        const datosMascotas =
+            @Html.Raw(JsonSerializer.Serialize(datosMascotas));
+
+        const etiquetasPeriodos =
+            @Html.Raw(JsonSerializer.Serialize(etiquetasPeriodos));
+
+        const datosPeriodos =
+            @Html.Raw(JsonSerializer.Serialize(datosPeriodos));
+
+        const etiquetasDiagnosticos =
+            @Html.Raw(JsonSerializer.Serialize(etiquetasDiagnosticos));
+
+        const datosDiagnosticos =
+            @Html.Raw(JsonSerializer.Serialize(datosDiagnosticos));
+
+        // CITAS POR ESTADO
+
+        new Chart(document.getElementById('graficoCitas'), {
+            type: 'bar',
+            data: {
+                labels: etiquetasCitas,
+                datasets: [{
+                    label: 'Cantidad de citas',
+                    data: datosCitas,
+                    backgroundColor: [
+                        '#F0AD4E',
+                        '#239B82',
+                        '#176B5B',
+                        '#DC3545'
+                    ],
+                    borderRadius: 8
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            precision: 0
+                        }
+                    }
+                }
+            }
+        });
+
+        // MASCOTAS POR ESPECIE
+
+        new Chart(document.getElementById('graficoMascotas'), {
+            type: 'doughnut',
+            data: {
+                labels: etiquetasMascotas,
+                datasets: [{
+                    label: 'Cantidad de mascotas',
+                    data: datosMascotas,
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    }
+                }
+            }
+        });
+
+        // CONSULTAS POR PERIODO
+
+        new Chart(document.getElementById('graficoPeriodos'), {
+            type: 'bar',
+            data: {
+                labels: etiquetasPeriodos,
+                datasets: [{
+                    label: 'Cantidad de consultas',
+                    data: datosPeriodos,
+                    backgroundColor: [
+                        '#75B798',
+                        '#239B82',
+                        '#176B5B'
+                    ],
+                    borderRadius: 8
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            precision: 0
+                        }
+                    }
+                }
+            }
+        });
+
+        // DIAGNOSTICOS MAS FRECUENTES
+
+        new Chart(document.getElementById('graficoDiagnosticos'), {
+            type: 'bar',
+            data: {
+                labels: etiquetasDiagnosticos,
+                datasets: [{
+                    label: 'Cantidad de diagnósticos',
+                    data: datosDiagnosticos,
+                    backgroundColor: '#239B82',
+                    borderRadius: 6
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        ticks: {
+                            precision: 0
+                        }
+                    }
+                }
+            }
+        });
+
+    </script>
+}

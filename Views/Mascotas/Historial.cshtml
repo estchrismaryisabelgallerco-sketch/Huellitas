@@ -1,0 +1,215 @@
+
+@model Huellitas.Models.Mascota
+@using Huellitas.Models
+
+@{
+    ViewData["Title"] = "Historial clínico";
+
+    var consultas = ViewBag.Consultas as List<Consulta>
+        ?? new List<Consulta>();
+}
+
+<div class="container mt-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2>
+                <i class="bi bi-journal-medical"></i>
+                Historial clínico
+            </h2>
+            <p class="text-muted mb-0">
+                Registro médico de la mascota.
+            </p>
+        </div>
+
+        <a asp-action="Index" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left"></i>
+            Volver a mascotas
+        </a>
+    </div>
+
+    <!-- Información de la mascota -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-header bg-success text-white">
+            <h5 class="mb-0">Información de la mascota</h5>
+        </div>
+
+        <div class="card-body">
+            <div class="row">
+
+                <div class="col-md-6 mb-3">
+                    <strong>Nombre:</strong>
+                    <div>@Model.Nombre</div>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <strong>Especie:</strong>
+                    <div>@Model.Especie</div>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <strong>Raza:</strong>
+                    <div>@Model.Raza</div>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <strong>Sexo:</strong>
+                    <div>@Model.Sexo</div>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <strong>Fecha de nacimiento:</strong>
+                    <div>
+                        @(Model.FechaNacimiento.HasValue
+                            ? Model.FechaNacimiento.Value.ToString("dd/MM/yyyy")
+                            : "No registrada")
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Información del propietario -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-header">
+            <h5 class="mb-0">Información del propietario</h5>
+        </div>
+
+        <div class="card-body">
+            @if (Model.Propietario != null)
+            {
+                <div class="row">
+
+                    <div class="col-md-6 mb-2">
+                        <strong>Nombre completo:</strong>
+                        <div>
+                            @Model.Propietario.Nombres
+                            @Model.Propietario.Apellidos
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 mb-2">
+                        <strong>Teléfono:</strong>
+                        <div>@Model.Propietario.Telefono</div>
+                    </div>
+
+                    <div class="col-md-6 mb-2">
+                        <strong>Correo:</strong>
+                        <div>
+                            @(Model.Propietario.Correo ?? "No registrado")
+                        </div>
+                    </div>
+
+                </div>
+            }
+            else
+            {
+                <p class="text-muted mb-0">
+                    No hay información del propietario.
+                </p>
+            }
+        </div>
+    </div>
+
+    <!-- Consultas médicas -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h4>Consultas médicas</h4>
+
+        <span class="badge bg-success">
+            Total: @consultas.Count
+        </span>
+    </div>
+
+    @if (consultas.Count == 0)
+    {
+        <div class="alert alert-info">
+            <i class="bi bi-info-circle"></i>
+            Esta mascota todavía no tiene consultas médicas registradas.
+        </div>
+    }
+    else
+    {
+        @foreach (var consulta in consultas)
+        {
+            <div class="card shadow-sm mb-4">
+
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <strong>
+                        <i class="bi bi-calendar-event"></i>
+                        @consulta.FechaHora.ToString("dd/MM/yyyy HH:mm")
+                    </strong>
+
+                    @if (consulta.CitaId.HasValue)
+                    {
+                        <span class="badge bg-primary">
+                            Cita #@consulta.CitaId
+                        </span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-secondary">
+                            Sin cita asociada
+                        </span>
+                    }
+                </div>
+
+                <div class="card-body">
+
+                    <div class="mb-3">
+                        <strong>Motivo:</strong>
+                        <p class="mb-0">@consulta.Motivo</p>
+                    </div>
+
+                    <div class="mb-3">
+                        <strong>Síntomas:</strong>
+                        <p class="mb-0">
+                            @(consulta.Sintomas ?? "No registrados")
+                        </p>
+                    </div>
+
+                    <div class="mb-3">
+                        <strong>Diagnóstico:</strong>
+                        <p class="mb-0">@consulta.Diagnostico</p>
+                    </div>
+
+                    <div class="mb-3">
+                        <strong>Tratamiento:</strong>
+                        <p class="mb-0">
+                            @(consulta.Tratamiento ?? "No registrado")
+                        </p>
+                    </div>
+
+                    <div class="mb-3">
+                        <strong>Observaciones:</strong>
+                        <p class="mb-0">
+                            @(consulta.Observaciones ?? "Sin observaciones")
+                        </p>
+                    </div>
+
+                    @if (consulta.Cita != null)
+                    {
+                        <div class="alert alert-light border mb-3">
+                            <strong>Información de la cita:</strong>
+                            <div>
+                                Estado: @consulta.Cita.Estado
+                            </div>
+                            <div>
+                                Consultorio: @consulta.Cita.NumeroConsultorio
+                            </div>
+                        </div>
+                    }
+
+                    <a asp-controller="Consultas"
+                       asp-action="Details"
+                       asp-route-id="@consulta.Id"
+                       class="btn btn-outline-primary btn-sm">
+                        Ver consulta completa
+                    </a>
+
+                </div>
+            </div>
+        }
+    }
+
+</div>

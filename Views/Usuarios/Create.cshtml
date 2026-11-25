@@ -1,0 +1,127 @@
+
+@model Huellitas.ViewModels.CrearUsuarioViewModel
+
+@{
+    ViewData["Title"] = "Registrar usuario";
+}
+
+<div class="container mt-4">
+
+    <div class="row justify-content-center">
+        <div class="col-md-7 col-lg-6">
+
+            <div class="card shadow">
+
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">Registrar nuevo usuario</h4>
+                </div>
+
+                <div class="card-body p-4">
+
+                    <p class="text-muted mb-4">
+                        Registra una cuenta para el personal de HUELLITAS
+                        y asigna el rol correspondiente.
+                    </p>
+
+                    <form asp-controller="Usuarios"
+                          asp-action="Create"
+                          method="post">
+
+                        <div asp-validation-summary="ModelOnly"
+                             class="text-danger mb-3">
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label asp-for="Email"
+                                   class="form-label">
+                                Correo electrónico
+                            </label>
+
+                            <input asp-for="Email"
+                                   class="form-control"
+                                   placeholder="usuario@correo.com"
+                                   autocomplete="username" />
+
+                            <span asp-validation-for="Email"
+                                  class="text-danger">
+                            </span>
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label asp-for="Password"
+                                   class="form-label">
+                                Contraseña
+                            </label>
+
+                            <input asp-for="Password"
+                                   class="form-control"
+                                   placeholder="Mínimo 8 caracteres"
+                                   autocomplete="new-password" />
+
+                            <span asp-validation-for="Password"
+                                  class="text-danger">
+                            </span>
+
+                        </div>
+
+                        <div class="mb-4">
+
+                            <label asp-for="Rol"
+                                   class="form-label">
+                                Rol del usuario
+                            </label>
+
+                            <select asp-for="Rol"
+                                    class="form-select">
+
+                                <option value="">
+                                    Selecciona un rol
+                                </option>
+
+                                @foreach (var rol in ViewBag.Roles)
+                                {
+                                    <option value="@rol">
+                                        @rol
+                                    </option>
+                                }
+
+                            </select>
+
+                            <span asp-validation-for="Rol"
+                                  class="text-danger">
+                            </span>
+
+                        </div>
+
+                        <div class="d-grid gap-2">
+
+                            <button type="submit"
+                                    class="btn btn-primary">
+                                Registrar usuario
+                            </button>
+
+                            <a asp-controller="Home"
+                               asp-action="Index"
+                               class="btn btn-outline-secondary">
+                                Volver al inicio
+                            </a>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

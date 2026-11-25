@@ -1,0 +1,45 @@
+
+@model Huellitas.Models.Propietario
+
+@{
+    ViewData["Title"] = "Eliminar propietario";
+}
+
+<h1>Eliminar propietario</h1>
+
+<h3>¿Estás seguro de que deseas eliminar este propietario?</h3>
+
+<div class="card p-3 mb-3">
+
+    <dl class="row">
+        <dt class="col-sm-3">Nombres:</dt>
+        <dd class="col-sm-9">@Model.Nombres</dd>
+
+        <dt class="col-sm-3">Apellidos:</dt>
+        <dd class="col-sm-9">@Model.Apellidos</dd>
+
+        <dt class="col-sm-3">Teléfono:</dt>
+        <dd class="col-sm-9">@Model.Telefono</dd>
+
+        <dt class="col-sm-3">Correo:</dt>
+        <dd class="col-sm-9">@Model.Correo</dd>
+
+        <dt class="col-sm-3">Dirección:</dt>
+        <dd class="col-sm-9">@Model.Direccion</dd>
+    </dl>
+
+</div>
+
+<form asp-action="Delete" method="post">
+
+    <input type="hidden" asp-for="Id" />
+
+    <button type="submit" class="btn btn-danger">
+        Sí, eliminar
+    </button>
+
+    <a asp-action="Index" class="btn btn-secondary">
+        Cancelar
+    </a>
+
+</form>

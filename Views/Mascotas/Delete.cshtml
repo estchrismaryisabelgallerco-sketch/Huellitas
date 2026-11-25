@@ -1,0 +1,94 @@
+
+@model Huellitas.Models.Mascota
+
+@{
+    ViewData["Title"] = "Eliminar mascota";
+    int cantidadCitas = ViewBag.CantidadCitas ?? 0;
+    int cantidadConsultas = ViewBag.CantidadConsultas ?? 0;
+    bool tieneDependencias = ViewBag.TieneDependencias ?? false;
+}
+
+<div class="container mt-4">
+
+    <h1>Eliminar mascota</h1>
+
+    @if (tieneDependencias)
+    {
+        <div class="alert alert-danger">
+            <strong>No se puede eliminar esta mascota.</strong>
+            <ul class="mb-0 mt-2">
+                @if (cantidadCitas > 0)
+                {
+                    <li>Tiene <strong>@cantidadCitas cita(s)</strong> registrada(s).</li>
+                }
+                @if (cantidadConsultas > 0)
+                {
+                    <li>Tiene <strong>@cantidadConsultas consulta(s)</strong> registrada(s).</li>
+                }
+            </ul>
+            <p class="mb-0 mt-2">
+                Primero debe cancelar o eliminar esos registros antes de poder eliminar esta mascota.
+            </p>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-warning">
+            ¿Está seguro de que desea eliminar esta mascota?
+            Esta acción no se puede deshacer.
+        </div>
+    }
+
+    <div class="card p-4" style="max-width: 600px;">
+
+        <h4>Información de la mascota</h4>
+
+        <dl class="row mt-3">
+
+            <dt class="col-sm-4">Nombre</dt>
+            <dd class="col-sm-8">@Model.Nombre</dd>
+
+            <dt class="col-sm-4">Especie</dt>
+            <dd class="col-sm-8">@Model.Especie</dd>
+
+            <dt class="col-sm-4">Raza</dt>
+            <dd class="col-sm-8">@Model.Raza</dd>
+
+            <dt class="col-sm-4">Sexo</dt>
+            <dd class="col-sm-8">@Model.Sexo</dd>
+
+            <dt class="col-sm-4">Propietario</dt>
+            <dd class="col-sm-8">
+                @(Model.Propietario != null
+                    ? Model.Propietario.Nombres + " " +
+                      Model.Propietario.Apellidos
+                    : "Sin propietario")
+            </dd>
+
+        </dl>
+
+        @if (!tieneDependencias)
+        {
+            <form asp-action="Delete" method="post">
+
+                <input type="hidden" asp-for="Id" />
+
+                <button type="submit" class="btn btn-danger">
+                    Sí, eliminar mascota
+                </button>
+
+                <a asp-action="Index" class="btn btn-secondary">
+                    Cancelar
+                </a>
+
+            </form>
+        }
+        else
+        {
+            <a asp-action="Index" class="btn btn-secondary">
+                Volver al listado
+            </a>
+        }
+
+    </div>
+</div>

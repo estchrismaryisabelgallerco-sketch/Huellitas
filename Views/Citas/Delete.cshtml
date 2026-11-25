@@ -1,0 +1,93 @@
+@model Huellitas.Models.Cita
+
+@{
+    ViewData["Title"] = "Eliminar cita";
+    bool tieneConsulta = ViewBag.TieneConsulta ?? false;
+}
+
+<h1>Eliminar cita</h1>
+
+@if (tieneConsulta)
+{
+    <div class="alert alert-danger">
+        <strong>No se puede eliminar esta cita.</strong>
+        <p class="mb-0 mt-1">
+            Esta cita tiene una <strong>consulta médica registrada</strong>.
+            Primero debe eliminar la consulta vinculada antes de poder eliminar esta cita.
+        </p>
+    </div>
+}
+else
+{
+    <div class="alert alert-warning">
+        <strong>¿Estás seguro de que deseas eliminar esta cita?</strong>
+        Esta acción no se puede deshacer.
+    </div>
+}
+
+<hr />
+
+<dl class="row">
+
+    <dt class="col-sm-3">Mascota</dt>
+    <dd class="col-sm-9">
+        @(Model.Mascota?.Nombre ?? "Sin mascota")
+    </dd>
+
+    <dt class="col-sm-3">Propietario</dt>
+    <dd class="col-sm-9">
+        @(Model.Mascota?.Propietario != null
+            ? Model.Mascota.Propietario.Nombres + " " +
+              Model.Mascota.Propietario.Apellidos
+            : "Sin propietario")
+    </dd>
+
+    <dt class="col-sm-3">Veterinario</dt>
+    <dd class="col-sm-9">
+        @(Model.Personal != null
+            ? $"{Model.Personal.Nombres} {Model.Personal.Apellidos}"
+            : "Sin asignar")
+    </dd>
+
+    <dt class="col-sm-3">Fecha y hora</dt>
+    <dd class="col-sm-9">
+        @Model.FechaHora.ToString("dd/MM/yyyy HH:mm")
+    </dd>
+
+    <dt class="col-sm-3">Motivo</dt>
+    <dd class="col-sm-9">@Model.Motivo</dd>
+
+    <dt class="col-sm-3">Estado</dt>
+    <dd class="col-sm-9">@Model.Estado</dd>
+
+    <dt class="col-sm-3">Consultorio</dt>
+    <dd class="col-sm-9">
+        @(Model.NumeroConsultorio >= 1 && Model.NumeroConsultorio <= 3
+            ? $"Consultorio {Model.NumeroConsultorio}"
+            : "Sin asignar")
+    </dd>
+
+</dl>
+
+@if (!tieneConsulta)
+{
+    <form asp-action="Delete" method="post">
+
+        <input type="hidden" asp-for="Id" />
+
+        <button type="submit" class="btn btn-danger">
+            Sí, eliminar cita
+        </button>
+
+        <a asp-action="Index" class="btn btn-secondary">
+            Cancelar
+        </a>
+
+    </form>
+}
+else
+{
+    <a asp-action="Index" class="btn btn-secondary">
+        Volver al listado
+    </a>
+}

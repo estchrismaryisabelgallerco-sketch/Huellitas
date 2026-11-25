@@ -1,0 +1,124 @@
+@model Huellitas.Models.Cita
+
+@{
+    ViewData["Title"] = "Registrar cita";
+    bool esVeterinario = ViewBag.EsVeterinario == true;
+}
+
+<h1>Registrar nueva cita</h1>
+
+<hr />
+
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Create" method="post">
+
+            <div asp-validation-summary="All"
+                 class="text-danger"></div>
+
+            <div class="form-group mb-3">
+                <label asp-for="MascotaId" class="control-label">
+                    Mascota
+                </label>
+
+                <select asp-for="MascotaId"
+                        asp-items="ViewBag.MascotaId"
+                        class="form-control">
+                    <option value="">-- Seleccione una mascota --</option>
+                </select>
+
+                <span asp-validation-for="MascotaId"
+                      class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label class="control-label">Veterinario</label>
+                @if (esVeterinario)
+                {
+                    <input type="text"
+                           class="form-control"
+                           value="@ViewBag.VeterinarioNombre"
+                           readonly />
+                    <input type="hidden" asp-for="PersonalId" />
+                }
+                else
+                {
+                    <select asp-for="PersonalId"
+                            asp-items="ViewBag.PersonalId"
+                            class="form-control">
+                        <option value="">-- Seleccione un veterinario --</option>
+                    </select>
+                }
+                <span asp-validation-for="PersonalId"
+                      class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="FechaHora" class="control-label">
+                    Fecha y hora
+                </label>
+
+                <input asp-for="FechaHora"
+                       type="datetime-local"
+                       class="form-control" />
+
+                <small class="form-text text-muted">
+                    Duración fija: 45 minutos. La cita debe iniciar y terminar dentro del turno laboral del veterinario.
+                </small>
+
+                <span asp-validation-for="FechaHora"
+                      class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Motivo" class="control-label">
+                    Motivo de la cita
+                </label>
+
+                <textarea asp-for="Motivo"
+                          class="form-control"
+                          rows="3"
+                          placeholder="Describa el motivo de la consulta"></textarea>
+
+                <span asp-validation-for="Motivo"
+                      class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Estado" class="control-label">
+                    Estado
+                </label>
+
+                <select asp-for="Estado" class="form-control">
+                    <option value="Pendiente">Pendiente</option>
+                    <option value="Confirmada">Confirmada</option>
+                    <option value="Atendida">Atendida</option>
+                    <option value="Cancelada">Cancelada</option>
+                </select>
+
+                <span asp-validation-for="Estado"
+                      class="text-danger"></span>
+            </div>
+
+            <div class="alert alert-info py-2 mb-3">
+                <i class="bi bi-info-circle"></i>
+                El <strong>número de consultorio</strong> se determinará automáticamente según el horario de trabajo del veterinario para el día y la hora seleccionados.
+            </div>
+
+            <div class="mt-3">
+                <button type="submit" class="btn btn-primary">
+                    Registrar cita
+                </button>
+
+                <a asp-action="Index" class="btn btn-secondary">
+                    Cancelar
+                </a>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

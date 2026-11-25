@@ -1,0 +1,158 @@
+@model Huellitas.Models.Consulta
+
+@{
+    ViewData["Title"] = "Registrar consulta";
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-9">
+
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">Registrar consulta médica</h4>
+                </div>
+
+                <div class="card-body">
+
+                    <form asp-action="Create" method="post">
+
+                        <div asp-validation-summary="ModelOnly"
+                             class="text-danger mb-3"></div>
+
+                        <div class="mb-3">
+                            <label asp-for="MascotaId"
+                                   class="form-label">Mascota</label>
+
+                            <select asp-for="MascotaId"
+                                    asp-items="ViewBag.MascotaId"
+                                    class="form-select">
+                                <option value="">Seleccione una mascota</option>
+                            </select>
+
+                            <span asp-validation-for="MascotaId"
+                                  class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="CitaId"
+                                   class="form-label">Cita asociada (opcional)</label>
+
+                            <select asp-for="CitaId"
+                                    asp-items="ViewBag.CitaId"
+                                    class="form-select">
+                                <option value="">Sin cita asociada</option>
+                            </select>
+
+                            <span asp-validation-for="CitaId"
+                                  class="text-danger"></span>
+
+                            <small class="text-muted">
+                                Al guardar la consulta, la cita asociada
+                                cambiará automáticamente a Atendida.
+                            </small>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="FechaHora"
+                                   class="form-label">Fecha y hora</label>
+
+                            <input asp-for="FechaHora"
+                                   type="datetime-local"
+                                   class="form-control"
+                                   asp-format="{0:yyyy-MM-ddTHH:mm}" />
+
+                            <span asp-validation-for="FechaHora"
+                                  class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Motivo"
+                                   class="form-label">Motivo de consulta</label>
+
+                            <input asp-for="Motivo"
+                                   class="form-control"
+                                   placeholder="Ej. Revisión general" />
+
+                            <span asp-validation-for="Motivo"
+                                  class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Sintomas"
+                                   class="form-label">Síntomas</label>
+
+                            <textarea asp-for="Sintomas"
+                                      class="form-control"
+                                      rows="3"
+                                      placeholder="Describa los síntomas de la mascota"></textarea>
+
+                            <span asp-validation-for="Sintomas"
+                                  class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Diagnostico"
+                                   class="form-label">Diagnóstico</label>
+
+                            <textarea asp-for="Diagnostico"
+                                      class="form-control"
+                                      rows="3"
+                                      placeholder="Ingrese el diagnóstico médico"></textarea>
+
+                            <span asp-validation-for="Diagnostico"
+                                  class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Tratamiento"
+                                   class="form-label">Tratamiento</label>
+
+                            <textarea asp-for="Tratamiento"
+                                      class="form-control"
+                                      rows="3"
+                                      placeholder="Tratamiento indicado"></textarea>
+
+                            <span asp-validation-for="Tratamiento"
+                                  class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Observaciones"
+                                   class="form-label">Observaciones</label>
+
+                            <textarea asp-for="Observaciones"
+                                      class="form-control"
+                                      rows="3"
+                                      placeholder="Observaciones adicionales"></textarea>
+
+                            <span asp-validation-for="Observaciones"
+                                  class="text-danger"></span>
+                        </div>
+
+                        <div class="d-flex justify-content-between mt-4">
+                            <a asp-action="Index"
+                               class="btn btn-secondary">
+                                Volver
+                            </a>
+
+                            <button type="submit"
+                                    class="btn btn-primary">
+                                Guardar consulta
+                            </button>
+                        </div>
+
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

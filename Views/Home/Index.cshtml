@@ -1,0 +1,352 @@
+﻿
+@using System.Text.Json
+
+@{
+    ViewData["Title"] = "Inicio";
+
+    string[] etiquetasCitas =
+        ViewBag.EtiquetasCitas as string[] ?? Array.Empty<string>();
+
+    int[] datosCitas =
+        ViewBag.DatosCitas as int[] ?? Array.Empty<int>();
+
+    string[] etiquetasMascotas =
+        ViewBag.EtiquetasMascotas as string[] ?? Array.Empty<string>();
+
+    int[] datosMascotas =
+        ViewBag.DatosMascotas as int[] ?? Array.Empty<int>();
+}
+
+<div class="container-fluid py-4">
+
+    <!-- BIENVENIDA -->
+    <div class="p-4 p-md-5 mb-4 text-white rounded-4 shadow"
+         style="background: linear-gradient(120deg, #176B5B, #239B82);">
+
+        <h1 class="display-5 fw-bold">🐾 Bienvenido a Huellitas</h1>
+
+        <p class="fs-5 mb-0">Sistema de Gestión Veterinaria</p>
+
+        <p class="mt-2 mb-0">
+            Administra propietarios, mascotas, citas y consultas
+            desde un solo lugar.
+        </p>
+    </div>
+
+    @if (User.Identity?.IsAuthenticated == true)
+    {
+        <!-- ESTADÍSTICAS GENERALES -->
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <div>
+                <h2 class="h4 fw-bold mb-1">Resumen del sistema</h2>
+                <p class="text-muted mb-0">
+                    Información actualizada desde la base de datos.
+                </p>
+            </div>
+
+            <span class="badge rounded-pill text-bg-success">
+                Datos reales
+            </span>
+        </div>
+
+        <div class="row g-3 mb-4">
+
+            <div class="col-12 col-sm-6 col-xl-3">
+                <div class="card border-0 shadow-sm rounded-4 h-100">
+                    <div class="card-body p-4">
+                        <div class="text-muted mb-2">Propietarios</div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h2 class="fw-bold mb-0">
+                                @ViewBag.TotalPropietarios
+                            </h2>
+                            <span class="fs-2">👥</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-sm-6 col-xl-3">
+                <div class="card border-0 shadow-sm rounded-4 h-100">
+                    <div class="card-body p-4">
+                        <div class="text-muted mb-2">Mascotas</div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h2 class="fw-bold mb-0">
+                                @ViewBag.TotalMascotas
+                            </h2>
+                            <span class="fs-2">🐶</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-sm-6 col-xl-3">
+                <div class="card border-0 shadow-sm rounded-4 h-100">
+                    <div class="card-body p-4">
+                        <div class="text-muted mb-2">Citas</div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h2 class="fw-bold mb-0">
+                                @ViewBag.TotalCitas
+                            </h2>
+                            <span class="fs-2">📅</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-sm-6 col-xl-3">
+                <div class="card border-0 shadow-sm rounded-4 h-100">
+                    <div class="card-body p-4">
+                        <div class="text-muted mb-2">Consultas</div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h2 class="fw-bold mb-0">
+                                @ViewBag.TotalConsultas
+                            </h2>
+                            <span class="fs-2">🩺</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- GRÁFICOS -->
+        <h2 class="h4 fw-bold mb-3">Estadísticas visuales</h2>
+
+        <div class="row g-4 mb-5">
+
+            <div class="col-12 col-lg-6">
+                <div class="card border-0 shadow-sm rounded-4 h-100">
+                    <div class="card-body p-4">
+                        <h3 class="h5 fw-bold mb-3">
+                            Citas por estado
+                        </h3>
+
+                        <div style="height: 320px;">
+                            <canvas id="graficoCitas"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-lg-6">
+                <div class="card border-0 shadow-sm rounded-4 h-100">
+                    <div class="card-body p-4">
+                        <h3 class="h5 fw-bold mb-3">
+                            Mascotas por especie
+                        </h3>
+
+                        <div style="height: 320px;">
+                            <canvas id="graficoMascotas"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    }
+
+    <!-- ACCESOS A LOS MÓDULOS -->
+    <h2 class="h4 fw-bold mb-3">Accesos al sistema</h2>
+
+    <div class="row g-3 mb-4">
+
+        @if (User.Identity?.IsAuthenticated == true)
+        {
+            <div class="col-12 col-md-6 col-lg-4">
+                <a asp-controller="Propietarios" asp-action="Index"
+                   class="card border-0 shadow-sm rounded-4 h-100 text-decoration-none text-dark">
+                    <div class="card-body p-4">
+                        <div class="fs-1 mb-2">👥</div>
+                        <h3 class="h5 fw-bold">Propietarios</h3>
+                        <p class="text-muted mb-0">
+                            Gestión de propietarios registrados.
+                        </p>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-4">
+                <a asp-controller="Mascotas" asp-action="Index"
+                   class="card border-0 shadow-sm rounded-4 h-100 text-decoration-none text-dark">
+                    <div class="card-body p-4">
+                        <div class="fs-1 mb-2">🐶</div>
+                        <h3 class="h5 fw-bold">Mascotas</h3>
+                        <p class="text-muted mb-0">
+                            Registro y administración de mascotas.
+                        </p>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-4">
+                <a asp-controller="Citas" asp-action="Index"
+                   class="card border-0 shadow-sm rounded-4 h-100 text-decoration-none text-dark">
+                    <div class="card-body p-4">
+                        <div class="fs-1 mb-2">📅</div>
+                        <h3 class="h5 fw-bold">Citas</h3>
+                        <p class="text-muted mb-0">
+                            Administración de citas veterinarias.
+                        </p>
+                    </div>
+                </a>
+            </div>
+
+            @if (User.IsInRole("Administrador") ||
+                 User.IsInRole("Veterinario"))
+            {
+                <div class="col-12 col-md-6 col-lg-4">
+                    <a asp-controller="Consultas" asp-action="Index"
+                       class="card border-0 shadow-sm rounded-4 h-100 text-decoration-none text-dark">
+                        <div class="card-body p-4">
+                            <div class="fs-1 mb-2">🩺</div>
+                            <h3 class="h5 fw-bold">Consultas</h3>
+                            <p class="text-muted mb-0">
+                                Registro y seguimiento clínico.
+                            </p>
+                        </div>
+                    </a>
+                </div>
+            }
+
+            @if (User.IsInRole("Administrador"))
+            {
+                <div class="col-12 col-md-6 col-lg-4">
+                    <a asp-controller="Usuarios" asp-action="Index"
+                       class="card border-0 shadow-sm rounded-4 h-100 text-decoration-none text-dark">
+                        <div class="card-body p-4">
+                            <div class="fs-1 mb-2">🔐</div>
+                            <h3 class="h5 fw-bold">Usuarios</h3>
+                            <p class="text-muted mb-0">
+                                Administración de cuentas y roles.
+                            </p>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="col-12 col-md-6 col-lg-4">
+                    <a asp-controller="Personal" asp-action="Index"
+                       class="card border-0 shadow-sm rounded-4 h-100 text-decoration-none text-dark">
+                        <div class="card-body p-4">
+                            <div class="fs-1 mb-2">👨‍⚕️</div>
+                            <h3 class="h5 fw-bold">Personal</h3>
+                            <p class="text-muted mb-0">
+                                Gestión del personal veterinario.
+                            </p>
+                        </div>
+                    </a>
+                </div>
+            }
+        }
+        else
+        {
+            <div class="col-12">
+                <div class="card border-0 shadow-sm rounded-4">
+                    <div class="card-body p-4 text-center">
+                        <h3 class="h5 fw-bold">
+                            Inicia sesión para acceder al sistema
+                        </h3>
+
+                        <p class="text-muted">
+                            Ingresa con tu cuenta para administrar Huellitas.
+                        </p>
+
+                        <a asp-controller="Account" asp-action="Login"
+                           class="btn btn-success">
+                            Iniciar sesión
+                        </a>
+                    </div>
+                </div>
+            </div>
+        }
+
+    </div>
+</div>
+
+@section Scripts {
+    @if (User.Identity?.IsAuthenticated == true)
+    {
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+        <script>
+            const canvasCitas =
+                document.getElementById('graficoCitas');
+
+            const canvasMascotas =
+                document.getElementById('graficoMascotas');
+
+            const etiquetasCitas =
+                @Html.Raw(JsonSerializer.Serialize(etiquetasCitas));
+
+            const datosCitas =
+                @Html.Raw(JsonSerializer.Serialize(datosCitas));
+
+            const etiquetasMascotas =
+                @Html.Raw(JsonSerializer.Serialize(etiquetasMascotas));
+
+            const datosMascotas =
+                @Html.Raw(JsonSerializer.Serialize(datosMascotas));
+
+            // Gráfico de citas por estado.
+            if (canvasCitas) {
+                new Chart(canvasCitas, {
+                    type: 'bar',
+                    data: {
+                        labels: etiquetasCitas,
+                        datasets: [{
+                            label: 'Cantidad de citas',
+                            data: datosCitas,
+                            backgroundColor: [
+                                '#F0AD4E',
+                                '#239B82',
+                                '#176B5B',
+                                '#DC3545'
+                            ],
+                            borderRadius: 8
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                display: false
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    precision: 0
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+
+            // Gráfico de mascotas por especie.
+            if (canvasMascotas) {
+                new Chart(canvasMascotas, {
+                    type: 'doughnut',
+                    data: {
+                        labels: etiquetasMascotas,
+                        datasets: [{
+                            label: 'Cantidad de mascotas',
+                            data: datosMascotas,
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'bottom'
+                            }
+                        }
+                    }
+                });
+            }
+        </script>
+    }
+}

@@ -1,0 +1,131 @@
+
+@model Huellitas.Models.Consulta
+
+@{
+    ViewData["Title"] = "Editar consulta";
+}
+
+<h1>Editar consulta veterinaria</h1>
+
+<p>Modifique la información médica registrada.</p>
+
+<hr />
+
+<div class="row">
+    <div class="col-md-8">
+        <form asp-action="Edit" asp-route-id="@Model.Id" method="post">
+
+            <input type="hidden" asp-for="Id" />
+
+            <div asp-validation-summary="ModelOnly"
+                 class="text-danger mb-3"></div>
+
+            <div class="mb-3">
+                <label asp-for="MascotaId" class="form-label">
+                    Mascota
+                </label>
+                <select asp-for="MascotaId"
+                        asp-items="ViewBag.MascotaId"
+                        class="form-select">
+                    <option value="">Seleccione una mascota</option>
+                </select>
+                <span asp-validation-for="MascotaId"
+                      class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="CitaId" class="form-label">
+                    Cita asociada (opcional)
+                </label>
+                <select asp-for="CitaId"
+                        asp-items="ViewBag.CitaId"
+                        class="form-select">
+                    <option value="">Sin cita asociada</option>
+                </select>
+                <span asp-validation-for="CitaId"
+                      class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="FechaHora" class="form-label">
+                    Fecha y hora
+                </label>
+                <input asp-for="FechaHora"
+                       type="datetime-local"
+                       class="form-control" />
+                <span asp-validation-for="FechaHora"
+                      class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Motivo" class="form-label">
+                    Motivo de la consulta
+                </label>
+                <input asp-for="Motivo" class="form-control" />
+                <span asp-validation-for="Motivo"
+                      class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Sintomas" class="form-label">
+                    Síntomas
+                </label>
+                <textarea asp-for="Sintomas"
+                          class="form-control"
+                          rows="3"></textarea>
+                <span asp-validation-for="Sintomas"
+                      class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Diagnostico" class="form-label">
+                    Diagnóstico
+                </label>
+                <textarea asp-for="Diagnostico"
+                          class="form-control"
+                          rows="3"></textarea>
+                <span asp-validation-for="Diagnostico"
+                      class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Tratamiento" class="form-label">
+                    Tratamiento
+                </label>
+                <textarea asp-for="Tratamiento"
+                          class="form-control"
+                          rows="3"></textarea>
+                <span asp-validation-for="Tratamiento"
+                      class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Observaciones" class="form-label">
+                    Observaciones adicionales
+                </label>
+                <textarea asp-for="Observaciones"
+                          class="form-control"
+                          rows="3"></textarea>
+                <span asp-validation-for="Observaciones"
+                      class="text-danger"></span>
+            </div>
+
+            <div class="mt-4">
+                <button type="submit" class="btn btn-warning">
+                    Guardar cambios
+                </button>
+
+                <a asp-action="Index" class="btn btn-secondary">
+                    Cancelar
+                </a>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
